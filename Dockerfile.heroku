@@ -22,7 +22,7 @@ RUN apt-get update \
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
 ENV POETRY_VERSION=1.1.12
-RUN curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py \
+RUN curl -sSL -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py \
     && HTTP_CODE=$(curl -sSL -o /dev/null -w "%{http_code}" https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py) \
     && if [ "$HTTP_CODE" -eq 200 ]; then python3 get-poetry.py; else echo "Failed to fetch get-poetry.py (HTTP $HTTP_CODE)"; fi \
     && rm get-poetry.py
@@ -49,3 +49,4 @@ ENV PYTHONPATH="${PYTHONPATH}:/app"
 ENV HEROKU_APP="true"
 HEALTHCHECK --interval=1m --timeout=3s CMD ["/app/healthcheck.sh"]
 CMD ["./start.sh"]
+
